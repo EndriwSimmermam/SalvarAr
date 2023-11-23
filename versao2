@@ -1,0 +1,82 @@
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from time import sleep
+from tkinter import *
+from tkinter import messagebox
+
+def enviarDados(event):
+    if insertAR.get() != "":
+        global nomeSolicitante
+        nomeSolicitante = vNome.get()
+        global numeroAR
+        numeroAR = insertAR.get()
+        janela.destroy()
+    else:
+        messagebox.showwarning(title="Atenção",message="Não deixe nenhum campo em branco!")
+
+janela = Tk()
+janela.title("Inserir dados...")
+janela.geometry("400x300")
+janela.configure(background="#dde")
+janela.bind("<Return>",enviarDados)
+
+laber1 = Label(janela,text="Número do AR:",background="#dde",foreground="#009")
+laber1.place(x=200,y=80,width=200,height=20,anchor="center")
+insertAR = Entry(janela)
+insertAR.place(x=200,y=100,width=200,height=20,anchor="center")
+
+laber2 = Label(janela,text="Nome do Solicitante:",background="#dde",foreground="#009")
+laber2.place(x=200,y=130,width=200,height=20,anchor="center")
+vNome = Entry(janela)
+vNome.bind("<Return>",enviarDados)
+vNome.place(x=200,y=150,width=200,height=20,anchor="center")
+
+btn = Button(janela,text="Iniciar",command=enviarDados,)
+btn.place(x=200,y=190, anchor="center")
+
+janela.mainloop()
+
+
+
+sleep(5)
+
+driver = webdriver.Edge()
+
+driver.get('http://vcremona/Ripplestone/SignOn.aspx?ReturnUrl=%2fripplestone%2fHome.aspx')
+
+sleep(2)
+
+elemento = driver.find_element(By.ID, 'txtUserID')
+elemento.send_keys('endriw')
+
+elemento = driver.find_element(By.ID, 'txtPassword')
+elemento.send_keys('123')
+elemento.submit()
+
+sleep(2)
+
+elemento = driver.find_element(By.ID, 'ctl00_MainContent_ASPxPageControl1_panelMyDocuments_repeaterFavorites_ctl01_lnkbtnRunFav')
+
+sleep(2)
+
+elemento = driver.find_element(By.ID, 'ctl00_MainContent_ASPxPageControl1_pnlReport1WebViewer_CrystalReportViewer1_p0DiscreteValue')
+elemento.send_keys(600123)
+elemento.submit()
+
+sleep(60)
+
+elemento = driver.find_element(By.ID, 'CrystalReportViewer1_toptoolbar_export')
+
+elemento = driver.find_element(By.ID, 'theBttnbobjid_1700490401010_dialog_submitBtn')
+
+sleep(2)
+
+driver.quit()
+
+#origem = 'C:\Users\edilson\Downloads\CrystalReportViewer1.pdf'
+
+#destino = 'R:\Almoxarifado\Arquivos Comuns\AA - ARs de Compra Direta\ARs de 2023\600123 - teste.pdf'
+
+#os.rename(origem, destino)
+
+#os.startfile("outlook")
